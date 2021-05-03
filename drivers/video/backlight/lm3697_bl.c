@@ -422,7 +422,7 @@ static int lm3697_wled_update_status(struct backlight_device *bl)
 		}
 	}
 
-	dev_info(&lm3697_i2c_client->dev, "%s, target_brightness = %d, actual_brightness = %d\n", \
+	dev_dbg(&lm3697_i2c_client->dev, "%s, target_brightness = %d, actual_brightness = %d\n", \
 			__func__, bl->props.brightness, pchip->brightness);
 
 	return 0;
