@@ -890,7 +890,7 @@ static ssize_t oppo_display_set_panel_reg(struct device *dev,
 	char read;
 
 	if (!display || !display->panel) {
-		pr_err("debug for: %s %d\n", __func__, __LINE__);
+		pr_debug("debug for: %s %d\n", __func__, __LINE__);
 		return -EFAULT;
 	}
 

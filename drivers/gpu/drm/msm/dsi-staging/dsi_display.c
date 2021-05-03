@@ -262,7 +262,7 @@ int dsi_display_set_backlight(struct drm_connector *connector,
 */
 	if ((bl_lvl == 0 && panel->bl_config.bl_level != 0) ||
 		(bl_lvl != 0 && panel->bl_config.bl_level == 0)){
-		pr_err("backlight level changed %d -> %d\n",
+		pr_debug("backlight level changed %d -> %d\n",
 				panel->bl_config.bl_level, bl_lvl);
 
 #ifdef OPLUS_FEATURE_90FPS_GLOBAL_HBM
@@ -6735,7 +6735,7 @@ int dsi_display_validate_mode_change(struct dsi_display *display,
 			#ifdef OPLUS_BUG_STABILITY
 			/*liping-m@PSW.MM.Display.LCD,2019/6/20,for 90FPS LCD */
 			if (cur_mode->timing.refresh_rate != adj_mode->timing.refresh_rate) {
-				pr_err("dsi_cmd set fps: %d\n", adj_mode->timing.refresh_rate);
+				pr_debug("dsi_cmd set fps: %d\n", adj_mode->timing.refresh_rate);
 			}
 			#endif /*OPLUS_BUG_STABILITY*/
 			if (dfps_caps.dfps_support ||

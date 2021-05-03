@@ -421,7 +421,7 @@ static int dsi_panel_reset(struct dsi_panel *panel)
 	int i;
 
 	#ifdef OPLUS_BUG_STABILITY
-	pr_info("debug for %s\n",__func__);
+	pr_debug("debug for %s\n",__func__);
 	/* Chao.Zhang@MULTIMEDIA.DISPLAY.LCD, 2020/09/25, add for 19081 LCD */
 	if (gpio_is_valid(panel->reset_config.lcd_vci_gpio)) {
 		rc = gpio_direction_output(panel->reset_config.lcd_vci_gpio, 1);
@@ -623,7 +623,7 @@ static int dsi_panel_power_on(struct dsi_panel *panel)
 
 	#ifdef OPLUS_BUG_STABILITY
 	/* xupengcheng@MULTIMEDIA.DISPLAY.LCD, 2020/12/07, add for 19696 esd check */
-	pr_info("debug for %s\n",__func__);
+	pr_debug("debug for %s\n",__func__);
 	if(get_esd_check_happened(panel))
 		set_esd_check_happened(panel,0);
 
@@ -740,14 +740,14 @@ static int dsi_panel_power_off(struct dsi_panel *panel)
 	#else /* OPLUS_BUG_STABILITY */
 		#ifdef OPLUS_FEATURE_TP_BASIC
 		/*Chen.Pan@BSP.TP.Function, 2020/10/23, Add for tp use noflash tp*/
-			pr_err("[TP] tp_gesture_enable_flag = %d\n", tp_gesture_enable_flag());
+			pr_debug("[TP] tp_gesture_enable_flag = %d\n", tp_gesture_enable_flag());
 			if(1 == tp_gesture_enable_flag()) {
 				is_pd_with_guesture = true;
-				pr_err("[TP] tp gesture is enable, not to dsi_panel_power_off\n");
+				pr_debug("[TP] tp gesture is enable, not to dsi_panel_power_off\n");
 				return rc;
 			}
 			is_pd_with_guesture = false;
-			pr_err("[TP] tp gesture is disenable, goto dsi_panel_power_off\n");
+			pr_debug("[TP] tp gesture is disenable, goto dsi_panel_power_off\n");
 			if(panel->oppo_priv.is_19696_lcd) {
 				if(!tp_enable_cs_flag){
 				tp_enable_cs_flag = true;
@@ -912,7 +912,7 @@ int dsi_panel_tx_cmd_set(struct dsi_panel *panel,
 	if((0 == osc_cmd_skip_count) && (panel->oppo_priv.is_19781_lcd) && \
 			((DSI_CMD_OSC_CLK_MODEO0 == type)||(DSI_CMD_OSC_CLK_MODEO1 == type))) {
 		osc_cmd_skip_count = 1;
-		pr_err("first setting osc clk is skipped");
+		pr_debug("first setting osc clk is skipped");
 		goto error;
 	}
 /* Gou shengjun@PSW.MM.Display.LCD.Stability,2018/12/13
@@ -921,7 +921,7 @@ int dsi_panel_tx_cmd_set(struct dsi_panel *panel,
 #ifdef OPLUS_FEATURE_90FPS_GLOBAL_HBM
 /*xupengcheng@MULTIMEDIA.DISPLAY.LCD, 2020/12/29, add for samsung 90fps Global HBM backlight issue*/
 	if(!strcmp(cmd_set_prop_map[type], "qcom,mdss-dsi-nolp-command")){
-		pr_err("dsi_cmd recovery writ 0x53 reg when nolp\n");
+		pr_debug("dsi_cmd recovery writ 0x53 reg when nolp\n");
 		flag_writ = 3;
 	}
 #endif /*OPLUS_FEATURE_90FPS_GLOBAL_HBM*/
@@ -5215,7 +5215,7 @@ int dsi_panel_enable(struct dsi_panel *panel)
 
 //#ifdef OPLUS_BUG_STABILITY
 /* Gou shengjun@PSW.MM.Display.Lcd.Stability, 2018-05-31,add to mark power states*/
-	pr_err("%s\n", __func__);
+	pr_debug("%s\n", __func__);
 //#endif /* OPLUS_BUG_STABILITY */
 	mutex_lock(&panel->panel_lock);
 
