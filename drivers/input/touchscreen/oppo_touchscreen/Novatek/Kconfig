@@ -1,0 +1,7 @@
+config TOUCHPANEL_NT_DIGITALNOISE_TEST
+#   default y
+    bool "TP nova nt36672C IC add digital noise test or not for OPPO"
+    ---help---
+    say Y to add digital noise test
+
+source "drivers/input/touchscreen/oppo_touchscreen/Novatek/NT36672C_noflash/Kconfig"
