@@ -1,0 +1,8 @@
+obj-$(CONFIG_OPPO_FINGERPRINT) += oppo_fp_common/
+
+### Capacitive fingerprint sensor
+obj-$(CONFIG_OPPO_FINGERPRINT_FPC) += fpc/
+obj-$(CONFIG_OPPO_FINGERPRINT_GOODIX) += goodix/
+
+### FEATURE MACRO
+ccflags-$(CONFIG_OPPO_FINGERPRINT_NAVIGATION_ENABLE) += -DFP_NAVIGATION_ENABLE
