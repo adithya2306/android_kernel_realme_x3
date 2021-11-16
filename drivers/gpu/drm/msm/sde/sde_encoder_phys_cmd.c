@@ -34,6 +34,12 @@
 
 #define PP_TIMEOUT_MAX_TRIALS	4
 
+#ifdef OPLUS_BUG_STABILITY
+/*Sachin Shukl@PSW.MM.Display.Lcd.Stability, 2019-09-01, add for runing SDE_RECOVERY_HARD_RESET when pingpong timeout many times*/
+#define PP_TIMEOUT_BAD_TRIALS   10
+extern int oppo_dimlayer_fingerprint_failcount;
+#endif /*OPLUS_BUG_STABILITY */
+
 /*
  * Tearcheck sync start and continue thresholds are empirically found
  * based on common panels In the future, may want to allow panels to override
@@ -545,6 +551,12 @@ static int _sde_encoder_phys_cmd_handle_ppdone_timeout(
 
 	conn = phys_enc->connector;
 	sde_conn = to_sde_connector(conn);
+#ifdef OPLUS_BUG_STABILITY
+/*Mark.Yao@PSW.MM.Display.Lcd.Stability, 2018-05-24,avoid recursion handle*/
+	if (cmd_enc->pp_timeout_report_cnt >= PP_TIMEOUT_BAD_TRIALS)
+		return -EFAULT;
+#endif /* OPLUS_BUG_STABILITY */
+
 	cmd_enc->pp_timeout_report_cnt++;
 	pending_kickoff_cnt = atomic_read(&phys_enc->pending_kickoff_cnt);
 
@@ -571,6 +583,11 @@ static int _sde_encoder_phys_cmd_handle_ppdone_timeout(
 	if (sde_connector_esd_status(phys_enc->connector) ||
 	    sde_conn->panel_dead)
 		goto exit;
+
+//#ifdef VENDOR_EDIT
+//Jiasong.Zhong@PSW.MM.Display.LCD.Stable, 2020/10/29, Add log for ramdump,bugID:509564
+	SDE_DBG_DUMP("all", "dbg_bus", "vbif_dbg_bus", "panic");
+//#endif /* VENDOR_EDIT */
 
 	/* to avoid flooding, only log first time, and "dead" time */
 	if (cmd_enc->pp_timeout_report_cnt == 1) {
@@ -692,7 +709,12 @@ static int _sde_encoder_phys_cmd_poll_write_pointer_started(
 				phys_enc->hw_intf->idx - INTF_0,
 				timeout_us,
 				ret);
+		#ifndef OPLUS_BUG_STABILITY
+		/*Mark.Yao@PSW.MM.Display.LCD.Stable,2018-12-18 fix crash when unplug screen*/
 		SDE_DBG_DUMP("all", "dbg_bus", "vbif_dbg_bus", "panic");
+		#else /* OPLUS_BUG_STABILITY */
+		SDE_DBG_DUMP("all", "dbg_bus", "vbif_dbg_bus");
+		#endif /* OPLUS_BUG_STABILITY */
 	}
 
 end:
