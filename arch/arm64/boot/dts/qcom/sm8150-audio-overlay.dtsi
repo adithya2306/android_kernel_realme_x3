@@ -353,3 +353,4 @@
 		qcom,cdc-micbias1-mv = <1800>;
 	};
 };
+#include "oplus-audio-extend.dtsi"
