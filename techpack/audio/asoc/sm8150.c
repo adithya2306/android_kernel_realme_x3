@@ -7016,6 +7016,24 @@ static struct snd_soc_dai_link msm_auxpcm_be_dai_links[] = {
 	},
 };
 
+static struct snd_soc_dai_link tfa98xx_be_dai_links[] = {
+	{
+		.name = LPASS_BE_QUAT_MI2S_RX,
+		.stream_name = "Quaternary MI2S Playback",
+		.cpu_dai_name = "msm-dai-q6-mi2s.3",
+		.platform_name = "msm-pcm-routing",
+		.codec_name = "tfa98xx.0-0035",
+		.codec_dai_name = "tfa98xx-aif-0-35",
+		.no_pcm = 1,
+		.dpcm_playback = 1,
+		.id = MSM_BACKEND_DAI_QUATERNARY_MI2S_RX,
+		.be_hw_params_fixup = msm_be_hw_params_fixup,
+		.ops = &msm_mi2s_be_ops,
+		.ignore_suspend = 1,
+		.ignore_pmdown_time = 1,
+	},
+};
+
 static struct snd_soc_dai_link msm_pahu_snd_card_dai_links[
 			 ARRAY_SIZE(msm_common_dai_links) +
 			 ARRAY_SIZE(msm_pahu_fe_dai_links) +
@@ -7315,6 +7333,10 @@ static struct snd_soc_card *populate_snd_card_dailinks(struct device *dev)
 	const struct of_device_id *match;
 	int ret = 0;
 	u32 val = 0;
+	int i;
+	const char *product_name = NULL;
+	const char *oppo_speaker_type = "oppo,speaker-pa";
+	struct snd_soc_dai_link *temp_link;
 
 	match = of_match_node(sm8150_asoc_machine_of_match, dev->of_node);
 	if (!match) {
@@ -7436,6 +7458,22 @@ static struct snd_soc_card *populate_snd_card_dailinks(struct device *dev)
 		ret = of_property_read_u32(dev->of_node,
 					   "qcom,mi2s-audio-intf", &val);
 		if (!ret && val) {
+			if (!of_property_read_string(dev->of_node, oppo_speaker_type,
+					&product_name)) {
+				pr_info("%s: custom speaker product %s\n", __func__, product_name);
+				for (i = 0; i < ARRAY_SIZE(msm_mi2s_be_dai_links); i++) {
+					temp_link = &msm_mi2s_be_dai_links[i];
+					if (temp_link->id == MSM_BACKEND_DAI_QUATERNARY_MI2S_RX) {
+						if (!strcmp(product_name, "nxp")
+								&& soc_find_component(NULL, tfa98xx_be_dai_links[0].codec_name)) {
+							pr_info("%s: use nxp dailink replace\n", __func__);
+							memcpy(temp_link, &tfa98xx_be_dai_links[0],
+							sizeof(tfa98xx_be_dai_links[0]));
+							break;
+						}
+					}
+				}
+			}
 			#ifdef OPLUS_ARCH_EXTENDS
 			/*Wan.li@MULTIMEDIA.AUDIODRIVER.MACHINE, 2020/09/27, Add for oplus extend audio*/
 			extend_i2s_be_dailinks_func = symbol_request(extend_codec_i2s_be_dailinks);
