@@ -188,7 +188,12 @@ static const struct reg_default wcd937x_defaults[] = {
 	{ WCD937X_SLEEP_WATCHDOG_CTL,            0x00 },
 	{ WCD937X_MBHC_NEW_ELECT_REM_CLAMP_CTL,  0x00 },
 	{ WCD937X_MBHC_NEW_CTL_1,                0x02 },
+	#ifndef OPLUS_ARCH_EXTENDS
+	/*Suresh.Alla@MULTIMEDIA.AUDIODRIVER.HEADSETDET, 2020/07/31, Modify for disable moisture detect. bit2~3*/
 	{ WCD937X_MBHC_NEW_CTL_2,                0x05 },
+	#else /*OPLUS_ARCH_EXTENDS*/
+	{ WCD937X_MBHC_NEW_CTL_2,                0x01 },
+	#endif /*OPLUS_ARCH_EXTENDS*/
 	{ WCD937X_MBHC_NEW_PLUG_DETECT_CTL,      0xE9 },
 	{ WCD937X_MBHC_NEW_ZDET_ANA_CTL,         0x0F },
 	{ WCD937X_MBHC_NEW_ZDET_RAMP_CTL,        0x00 },
