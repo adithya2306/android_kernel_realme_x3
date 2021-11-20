@@ -234,6 +234,7 @@
 			qcom,float-option = <1>;
 
 			//for oppo chg framework:
+			qcom,oplus-pps-usbpd-detection = <&pm8150b_pdphy>;
 			qcom,input_current_charger_ma = <2000>;
 			qcom,pd_input_current_charger_ma = <3000>;
 			qcom,input_current_usb_ma = <500>;
