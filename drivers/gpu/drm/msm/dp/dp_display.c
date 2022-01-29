@@ -676,7 +676,11 @@ static void dp_display_post_open(struct dp_display *dp_display)
 
 	/* if cable is already connected, send notification */
 	if (dp->hpd->hpd_high)
+		#ifdef OPLUS_FEATURE_DP_MAX20328
+		queue_delayed_work(dp->wq, &dp->connect_work, 0);
+		#else
 		queue_work(dp->wq, &dp->connect_work);
+		#endif
 	else
 		dp_display->post_open = NULL;
 }
