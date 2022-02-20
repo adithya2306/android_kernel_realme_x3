@@ -5,7 +5,7 @@
 
 SECONDS=0 # builtin bash timer
 ZIPNAME="QuicksilveR-X3-v2-$(date '+%Y%m%d-%H%M').zip"
-TC_DIR="$HOME/aosp/prebuilts/clang/host/linux-x86/clang-r416183b1"
+TC_DIR="$HOME/tc/clang-r416183b1"
 GCC_64_DIR="$HOME/tc/aarch64-linux-android-4.9"
 GCC_32_DIR="$HOME/tc/arm-linux-androideabi-4.9"
 AK3_DIR="$HOME/android/AnyKernel3"
