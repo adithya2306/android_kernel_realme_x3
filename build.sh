@@ -8,7 +8,7 @@ ZIPNAME="QuicksilveR-X3-v2-$(date '+%Y%m%d-%H%M').zip"
 TC_DIR="$HOME/tc/clang-r416183b1"
 GCC_64_DIR="$HOME/tc/aarch64-linux-android-4.9"
 GCC_32_DIR="$HOME/tc/arm-linux-androideabi-4.9"
-AK3_DIR="$HOME/android/AnyKernel3"
+AK3_DIR="$HOME/AnyKernel3"
 DEFCONFIG="vendor/x3-perf_defconfig"
 
 if test -z "$(git rev-parse --show-cdup 2>/dev/null)" &&
