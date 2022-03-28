@@ -901,9 +901,9 @@
 	qcom,panel-supply-entries = <&dsi_panel_pwr_supply>;
 	/* xupengcheng@MULTIMEDIA.DISPLAY.LCD, 2020/09/23, add for 19696 backlight IC lm3697*/
 	qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_external";
-	qcom,mdss-dsi-bl-min-level = <1>;
-	qcom,mdss-dsi-bl-max-level = <4095>;
-	qcom,mdss-brightness-max-level = <4095>;
+	qcom,mdss-dsi-bl-min-level = <7>;
+	qcom,mdss-dsi-bl-max-level = <2047>;
+	qcom,mdss-brightness-max-level = <2047>;
         qcom,mdss-dsi-bl-default-level = <1200>;
         qcom,mdss-dsi-bl-normal-max-level = <2047>;
 	qcom,mdss-brightness-normal-max-level = <2047>;

@@ -267,6 +267,7 @@ static struct regmap_config lm3697_regmap = {
 	.max_register = LM3697_MAX_REGISTERS,
 };
 
+#if 0
 struct _bl_map_rang {
 	int start;
 	int end;
@@ -310,8 +311,11 @@ static int calc_backlightness(int bl_lvl)
 		}
 	}
 
+	pr_debug("%s ret=%d", __func__, ret);
+
 	return ret;
 }
+#endif
 
 /* update and get brightness */
 static int lm3697_wled_update_status(struct backlight_device *bl)
@@ -338,7 +342,7 @@ static int lm3697_wled_update_status(struct backlight_device *bl)
 		return -1;
 	}
 
-	pchip->brightness = calc_backlightness(bl->props.brightness);
+	pchip->brightness = bl->props.brightness;
 	bl_msb = (pchip->brightness >> 3) & 0xFF;
 	bl_lsb = pchip->brightness & 0x07;
 
